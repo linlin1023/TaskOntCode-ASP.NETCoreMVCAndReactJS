@@ -1,0 +1,27 @@
+﻿.tableContainer {
+    margin: 25px  auto;
+    width: 95%;
+}
+.rawTableDiv {
+    margin: 20px auto;
+}
+.btns {
+    display: inline-block;
+    margin: auto 20px;
+   
+}
+.buttonSet {
+    width: 50%;
+    margin: auto auto;
+}
+
+
+
+.ui.table {
+    text-align: center;
+}
+
+.paginationBarDiv {
+    margin : 35px auto;
+    text-align:center;
+}

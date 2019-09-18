@@ -7,7 +7,7 @@ import ButtonDelete from './ButtonDelete';
 const color = 'green';
 
 const TableContent = (color) => (
-    <div>
+    <div className="rawTableDiv">
         <Table color="green" key={color}  >
         <Table.Header>
           <Table.Row>

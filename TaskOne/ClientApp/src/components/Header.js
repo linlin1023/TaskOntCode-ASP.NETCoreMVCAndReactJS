@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react'
 import { Menu, Segment } from 'semantic-ui-react'
 
-export default class MenuExampleInvertedSecondary extends Component {
+export default class Header extends Component {
     state = { activeItem: 'Customers' }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })

@@ -2,6 +2,7 @@
 import { Icon, Pagination } from 'semantic-ui-react'
 
 const PaginationExampleShorthand = () => (
+    <div className="paginationBarDiv">
     <Pagination
         defaultActivePage={5}
         ellipsisItem={{ content: <Icon name='ellipsis horizontal' />, icon: true }}
@@ -11,6 +12,7 @@ const PaginationExampleShorthand = () => (
         nextItem={{ content: <Icon name='angle right' />, icon: true }}
         totalPages={10}
     />
+   </div >
 )
 
 export default PaginationExampleShorthand

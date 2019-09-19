@@ -4,7 +4,10 @@ import { Menu, Segment } from 'semantic-ui-react'
 export default class Header extends Component {
     state = { activeItem: 'Customers' }
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    handleItemClick = (e, { name }) => {
+        this.setState({ activeItem: name });
+        this.props.clickHandler(name);
+    }
 
     render() {
         const { activeItem } = this.state

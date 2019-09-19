@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.css';
 import MainContent from './components/MainContent';
 import Header from './components/Header';
-
+import EditForm from './components/EditForm';
 
 export default class App extends Component {
   displayName = App.name
@@ -14,9 +14,7 @@ export default class App extends Component {
             type: ""
         }
         this.handleMenuClick = this.handleMenuClick.bind(this);
-        this.handleNewButtonClick = this.handleNewButtonClick(this);
-        this.handleDeleteButtonClick = this.handleDeleteButtonClick(this);
-        this.handleEditButtonClick = this.handleEditButtonClick(this);
+        this.addNewItem = this.addNewItem.bind(this);
     }
 
 
@@ -36,28 +34,25 @@ export default class App extends Component {
         }
     }
 
-    handleNewButtonClick(type) {
-        console.log("new");
+    addNewItem(newItem, type) { //post 
+        if (newItem == null) {
+            return;
+        }
+        var url = "/api/" + type; //post
+        console.log(url);
     }
 
-    handleDeleteButtonClick(type) {
-        console.log("delete");
-    }
-
-    handleEditButtonClick(type) {
-        console.log("edit");
-    }
     render() {
-        console.log(this.handleNewButtonClick);
+        console.log("method : " + this.addNewItem);
       return (
           <div>
               <Header clickHandler={this.handleMenuClick} />
               <MainContent
                   items={this.state.data}
                   type={this.state.type}
-                  handleNew={this.handleNewButtonClick}
-                  handleDelete={this.handleDeleteButtonClick}
-                  handleEdit={this.handleEditButtonClick}/>
+                  addFunction={this.addNewItem}
+              />
+              <EditForm/>
           </div>
     );
   }

@@ -4,7 +4,7 @@ import TableContent from './TableContent';
 import PaginationExampleShorthand from './PaginationExampleShorthand';
 import { CustomersHeader, ProductsHeader, SalesHeader, StoresHeader } from './dataSupplier';
 
-const MainContent = ({ items, type, handleNew }) => {
+const MainContent = ({ items, type, addFunction }) => {
     var header = CustomersHeader; //cutomer as default
     if (type === 'Customers')
         header = CustomersHeader;
@@ -14,11 +14,10 @@ const MainContent = ({ items, type, handleNew }) => {
         header = StoresHeader;
     else if (type === 'Sales')
         header = SalesHeader;
-    console.log(handleNew);
     return (
         <div className="tableContainer">
-            <ButtonAdd handleNew={handleNew} type={type}/>
-            <TableContent items={items} type={type} header={header}  handleNew={handleNew} />
+            <ButtonAdd type={type} addFunction={addFunction} header={header}/>
+            <TableContent items={items} type={type} header={header}   />
             <PaginationExampleShorthand />
         </div>
     );

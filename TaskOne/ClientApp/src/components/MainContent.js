@@ -12,17 +12,19 @@ class MainContent extends React.Component {
         this.state = {
                editing: false
         };
-        this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+        this.handleAddAndEditButtonClick = this.handleAddAndEditButtonClick.bind(this);
         this.cancellEdit = this.cancellEdit.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
     }
 
-    handleAddButtonClick() {
+    handleAddAndEditButtonClick(item) {
         this.setState({
             editing: true,
-            item: {}
+            item: item
         });
     }
+
+
 
     cancellEdit() {
         this.setState({
@@ -34,8 +36,9 @@ class MainContent extends React.Component {
     submitEdit(itemEdited) {
         this.setState({
             editing: false
-        })
-        if (notEmpty(itemEdited.Id)) {//true edit 
+        });
+       // alert(notEmpty(itemEdited) && notEmpty(itemEdited.id));
+        if (notEmpty(itemEdited) && notEmpty(itemEdited.id)) {//true edit 
             this.props.editItem(itemEdited)
         } else {
             this.props.addItem(itemEdited);
@@ -48,8 +51,12 @@ class MainContent extends React.Component {
         return (
             <div>
                 <div className="tableContainer">
-                    <ButtonAdd clickHandler={this.handleAddButtonClick}/>
-                    <TableContent items={this.props.items} header={header} deleteItem={this.props.deleteItem} />
+                    <ButtonAdd clickHandler={this.handleAddAndEditButtonClick}/>
+                    <TableContent items={this.props.items}
+                        header={header}
+                        deleteItem={this.props.deleteItem}
+                        clickHandler={this.handleAddAndEditButtonClick} 
+                    />
                     <PaginationExampleShorthand />
                 </div>
                 {this.state.editing && <EditForm type={this.props.type} item={this.state.item}

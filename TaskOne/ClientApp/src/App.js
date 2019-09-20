@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.css';
 import MainContent from './components/MainContent';
 import Header from './components/Header';
-import { postData, deleteData } from './components/APIData';
+import { postData, deleteData, putData } from './components/APIData';
 import { notEmpty } from './components/Validator';
 import  MessageBox  from './components/MessageBox';
 
@@ -63,10 +63,40 @@ export default class App extends Component {
                 
             })
         this.handleMenuClick(type);
+        this.forceUpdate();
     }
     editItem(itemEdited) {
-
+        const { type } = this.state;
+        if (itemEdited === null || itemEdited === undefined || itemEdited.id === undefined || itemEdited.id === null) {
+            this.setState({
+                errorMessage:
+                    "The data you submitted is not valid"
+            });
+        } else {
+            //alert("go edit");
+            const url = "/api/" + type + "/" + itemEdited.id;
+            putData(url, itemEdited).then(data => {
+                alert(data);
+                if (data) {
+                    this.handleMenuClick(type);
+                    this.forceUpdate();
+                }  
+                else if (!data)
+                    this.setState({
+                        errorMessage:
+                            "Sorry, edit data failed, please contact tech support for helping."
+                    });
+            }
+            ).catch(error => {
+                this.setState({
+                    errorMessage:
+                        "Sorry, edit data failed, please contact tech support for helping."
+                });
+                console.error(error);
+            });
+        }
     }
+
     deleteItem(id) {   
         if (!notEmpty(id))
             return;
@@ -82,6 +112,7 @@ export default class App extends Component {
             }) // JSON from `response.json()` call
             .catch(error => console.error(error));
         this.handleMenuClick(type);//reload
+        this.forceUpdate();
     }
 
     onClose() {
@@ -98,9 +129,10 @@ export default class App extends Component {
                   type={this.state.type}
                   editItem={this.editItem}
                   addItem={this.addItem}
-                  deleteItem={this.deleteItem} />
+                  deleteItem={this.deleteItem}
+                  editItem={this.editItem}/>
 
-              {this.state.errorMessage ? <MessageBox message={this.state.errorMessage} onClose={this.onClose}/> : null}
+              {this.state.errorMessage ? <MessageBox message={this.state.errorMessage ? this.state.errorMessage : ""} onClose={this.onClose} /> : null}
           </div>
     );
   }

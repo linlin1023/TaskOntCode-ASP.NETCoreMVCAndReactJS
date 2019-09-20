@@ -5,7 +5,7 @@ import ButtonDelete from './ButtonDelete';
 
 const color = 'green';
 
-const TableContent = ({ items, type, header, deleteItem }) => {
+const TableContent = ({ items, header, deleteItem, clickHandler}) => {
     //items. type  header
     const headerCells = header.map((e) => <Table.HeaderCell key={e} >{e}</Table.HeaderCell>);
     const contentCells = items.map((item) => {
@@ -15,7 +15,7 @@ const TableContent = ({ items, type, header, deleteItem }) => {
         return (
             <Table.Row key={Math.random()}>
                 {content}
-                <Table.Cell><ButtonEdit /></Table.Cell>
+                <Table.Cell><ButtonEdit clickHandler={clickHandler} item={item}/></Table.Cell>
                 <Table.Cell><ButtonDelete clickHandler={deleteItem} itemId={item.id}/></Table.Cell>
             </Table.Row>
         );

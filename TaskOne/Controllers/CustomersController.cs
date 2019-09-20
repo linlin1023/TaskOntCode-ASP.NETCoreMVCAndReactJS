@@ -46,7 +46,7 @@ namespace TaskOne.Controllers
             return Ok(customer);
         }
 
-        // PUT: api/Customers/5
+        // PUT: api/Customers/5   return 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] Customer customer)
         {
@@ -66,7 +66,7 @@ namespace TaskOne.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
                 if (!CustomerExists(id))
                 {
@@ -74,6 +74,7 @@ namespace TaskOne.Controllers
                 }
                 else
                 {
+                    Console.WriteLine(e.StackTrace); 
                     throw;
                 }
             }

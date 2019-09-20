@@ -6,7 +6,7 @@ class ButtonAdd extends React.Component {
     render() {
         return (
             <div>
-                <Button positive onClick={() => { this.props.clickHandler() }}>New</Button>
+                <Button positive onClick={() => { this.props.clickHandler(null) }}>New</Button>
             </div>
         ); 
     }

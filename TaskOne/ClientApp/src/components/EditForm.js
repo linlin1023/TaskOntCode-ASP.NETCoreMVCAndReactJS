@@ -10,6 +10,7 @@ class EditForm extends React.Component  {
     constructor(props) {
         super(props);
         // if you want to use props in the constructor function you should pass in  this props as argument
+      
         this.state = {
             data: this.props.item ,
             header: getHeader(this.props.type),
@@ -25,14 +26,14 @@ class EditForm extends React.Component  {
         const { header, data } = this.state;
         var validated = true;
         header.forEach(h => {
-            validated = validated && notEmpty(data[h]);
+            validated = validated && notEmpty(data[h.toLowerCase()]);
         });
         if (validated === true) {
+            this.setState({ validated: true });
             this.props.submitButtonHandler(data);
             event.preventDefault();
         } else if (validated === false) {
-            this.setState(() => {
-            return { validated: false }; });
+            this.setState({ validated: false });
         }
         
     }
@@ -44,16 +45,17 @@ class EditForm extends React.Component  {
     handleChange(event) {
         // update the data that save in the state
         const { name, value } = event.target;
-        const { header,data } = this.state;
-        var newItem = data;
+        const { header, data } = this.state;
+        var newItem = (data == null) ? { }:data;
+        
         this.setState(() => {
             header.forEach(
                 h => {
-                    if (name === h) {
-                        newItem[h] = value;
+                    if (name === h.toLowerCase()) {
+                        newItem[name] = value;
                     }
                 }
-            )
+            );
             return {data: newItem, header};
         });
     }
@@ -63,18 +65,23 @@ class EditForm extends React.Component  {
         const textToDisplay = "Add New " + this.props.type.substring(0, this.props.type.length - 1);
         var fields = null;
         if (this.props.type !== 'Sales') {
-             fields = this.state.header.map((h) => (
-                <Form.Field
-                     key={h}
-                     control={Input}
-                     label={h}
-                     placeholder={h}
-                     value={this.state.data[h]||""}
-                     name={h}
-                     onChange={this.handleChange}                    
-                />
-            ));
+            fields = this.state.header.map((h) => {
+                const defaultValue = (this.state.data != null&&this.state.data[h.toLowerCase()] != null) ? this.state.data[h.toLowerCase()] : "";
+            
+                return (
+                    <Form.Field
+                        key={h}
+                        control={Input}
+                        label={h}
+                        placeholder={h}
+                        value={defaultValue}
+                        name={h.toLowerCase()}
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                )
+            });
         }
+        
         return (
             <div id="parentDisable">
                 <div id="popup">

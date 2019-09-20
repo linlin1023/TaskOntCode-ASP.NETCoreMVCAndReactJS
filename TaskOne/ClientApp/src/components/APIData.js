@@ -28,3 +28,23 @@ export function deleteData(url) {
             return response.json();
     }) // parses response to JSON
 }
+
+
+//// PUT: api/Customers/5  route id body 
+export function putData(url, data) {
+    // Default options are marked with *
+    return fetch(url, {
+        body: JSON.stringify(data), // must match 'Content-Type' header
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+            'user-agent': 'Mozilla/4.0 MDN Example',
+            'content-type': 'application/json'
+        },
+        method: 'PUT',
+    }).then(response => {
+        alert(response.status);
+        if (response.status == 204)
+            return true;
+        else return false;
+    })
+}

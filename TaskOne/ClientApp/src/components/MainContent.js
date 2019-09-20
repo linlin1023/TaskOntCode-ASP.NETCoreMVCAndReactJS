@@ -4,9 +4,9 @@ import TableContent from './TableContent';
 import PaginationExampleShorthand from './PaginationExampleShorthand';
 import { getHeader } from './dataSupplier';
 import EditForm from './EditForm';
-
+import { notEmpty } from './Validator';
 class MainContent extends React.Component {
-    //{ items, type, addFunction }
+    //{ items, type, editItem, addItem }
     constructor() {
         super();
         this.state = {
@@ -32,10 +32,14 @@ class MainContent extends React.Component {
     }
 
     submitEdit(itemEdited) {
-
         this.setState({
             editing: false
         })
+        if (notEmpty(itemEdited.Id)) {//true edit 
+            this.props.editItem(itemEdited)
+        } else {
+            this.props.addItem(itemEdited);
+        }
     }
 
     render() {

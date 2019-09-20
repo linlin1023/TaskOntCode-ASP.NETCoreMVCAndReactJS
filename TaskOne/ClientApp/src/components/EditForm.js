@@ -32,7 +32,6 @@ class EditForm extends React.Component  {
             event.preventDefault();
         } else if (validated === false) {
             this.setState(() => {
-            console.log("validation : " + JSON.stringify(this.state));
             return { validated: false }; });
         }
         

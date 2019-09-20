@@ -42,7 +42,7 @@
 #popup {
     z-index: 999;
     width: 800px;
-    height: 300px;
+    height: 380px;
     background-color: white;
     filter: alpha(opacity=1);
     color: #000;
@@ -52,6 +52,11 @@
     transform: translate(-50%,-50%);
     box-sizing: border-box;
     padding: 50px 60px;
+}
+.insidePop {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 #btn-edit-submit {
@@ -66,5 +71,5 @@
 }
 
 .formHeader {
-    margin : 10% auto;
+    margin : 15% auto;
 }

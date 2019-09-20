@@ -14,13 +14,16 @@ class MainContent extends React.Component {
         };
         this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
         this.cancellEdit = this.cancellEdit.bind(this);
+        this.submitEdit = this.submitEdit.bind(this);
     }
+
     handleAddButtonClick() {
         this.setState({
             editing: true,
             item: {}
         });
     }
+
     cancellEdit() {
         this.setState({
             editing: false,
@@ -28,7 +31,12 @@ class MainContent extends React.Component {
         })
     }
 
+    submitEdit(itemEdited) {
 
+        this.setState({
+            editing: false
+        })
+    }
 
     render() {
         var header = getHeader(this.props.type); //cutomer as default
@@ -41,6 +49,7 @@ class MainContent extends React.Component {
                 </div>
                 {this.state.editing && <EditForm type={this.props.type} item={this.state.item}
                     cancellButtonHandler={this.cancellEdit}
+                    submitButtonHandler={this.submitEdit}
                 />}
             </div>
         );

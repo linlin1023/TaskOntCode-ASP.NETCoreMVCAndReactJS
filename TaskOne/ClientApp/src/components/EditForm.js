@@ -1,13 +1,7 @@
 ﻿import React from 'react';
-import { Form, Input, Button, Header } from 'semantic-ui-react';
+import { Form, Input, Button, Header, Message } from 'semantic-ui-react';
 import { getHeader } from './dataSupplier';
-
-
-const genderOptions = [
-    { key: 'm', text: 'Male', value: 'male' },
-    { key: 'f', text: 'Female', value: 'female' },
-    { key: 'o', text: 'Other', value: 'other' },
-]
+import { notEmpty } from './Validator';
 
 class EditForm extends React.Component  {
 
@@ -18,10 +12,30 @@ class EditForm extends React.Component  {
         // if you want to use props in the constructor function you should pass in  this props as argument
         this.state = {
             data: this.props.item ,
-            header : getHeader(this.props.type)
+            header: getHeader(this.props.type),
+            validationMessage: "All fields are required, please enter the values",
+            validated:true
         }
         this.handleChange = this.handleChange.bind(this);
         this.cancellButtonClickHandler = this.cancellButtonClickHandler.bind(this);
+        this.submitButtonClickHandler = this.submitButtonClickHandler.bind(this);
+    }
+
+    submitButtonClickHandler(event) {
+        const { header, data } = this.state;
+        var validated = true;
+        header.forEach(h => {
+            validated = validated && notEmpty(data[h]);
+        });
+        if (validated === true) {
+            this.props.submitButtonHandler(data);
+            event.preventDefault();
+        } else if (validated === false) {
+            this.setState(() => {
+            console.log("validation : " + JSON.stringify(this.state));
+            return { validated: false }; });
+        }
+        
     }
 
     cancellButtonClickHandler() {
@@ -41,7 +55,6 @@ class EditForm extends React.Component  {
                     }
                 }
             )
-            console.log("after set state : " + JSON.stringify({ data: newItem, header }));
             return {data: newItem, header};
         });
     }
@@ -69,15 +82,15 @@ class EditForm extends React.Component  {
                     <Header as='h2' textAlign='center' className="formHeader">
                         {textToDisplay}
                     </Header>
+                   
                     <Form id="fromEdit">
                         <Form.Group widths='equal'>
                             {fields}
                         </Form.Group>
                         <Form.Group widths='equal'>
                             <Form.Field
-                                
                                 control={Button}
-                                
+                                onClick={this.submitButtonClickHandler}
                                 content="Submit"
                                 color='green'
                                 id="btn-edit-submit"
@@ -90,7 +103,12 @@ class EditForm extends React.Component  {
                                 id="btn-edit-cancell"
                             />
                         </Form.Group>
-                    </Form>
+                        </Form>
+                        {!this.state.validated && <Message
+                            error
+                            content={this.state.validationMessage}
+                        />} 
+
                 </div>
             </div>
         )

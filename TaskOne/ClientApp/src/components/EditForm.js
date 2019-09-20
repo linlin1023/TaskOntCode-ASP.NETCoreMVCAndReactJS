@@ -21,9 +21,12 @@ class EditForm extends React.Component  {
             header : getHeader(this.props.type)
         }
         this.handleChange = this.handleChange.bind(this);
+        this.cancellButtonClickHandler = this.cancellButtonClickHandler.bind(this);
     }
 
-
+    cancellButtonClickHandler() {
+        this.props.cancellButtonHandler();
+    }
     
     handleChange(event) {
         // update the data that save in the state
@@ -80,9 +83,8 @@ class EditForm extends React.Component  {
                                 id="btn-edit-submit"
                             />
                             <Form.Field
-                               
                                 control={Button}
-                                
+                                onClick={this.cancellButtonClickHandler}
                                 content="Cancell"
                                 color='grey'
                                 id="btn-edit-cancell"

@@ -13,12 +13,19 @@ class MainContent extends React.Component {
                editing: false
         };
         this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+        this.cancellEdit = this.cancellEdit.bind(this);
     }
     handleAddButtonClick() {
         this.setState({
             editing: true,
             item: {}
         });
+    }
+    cancellEdit() {
+        this.setState({
+            editing: false,
+            item: {}
+        })
     }
 
 
@@ -33,7 +40,8 @@ class MainContent extends React.Component {
                     <PaginationExampleShorthand />
                 </div>
                 {this.state.editing && <EditForm type={this.props.type} item={this.state.item}
-                    />}
+                    cancellButtonHandler={this.cancellEdit}
+                />}
             </div>
         );
     }

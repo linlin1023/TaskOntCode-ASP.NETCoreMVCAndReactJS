@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.css';
 import MainContent from './components/MainContent';
 import Header from './components/Header';
-import EditForm from './components/EditForm';
+
 
 export default class App extends Component {
   displayName = App.name
@@ -11,12 +11,16 @@ export default class App extends Component {
         super();
         this.state = {
             data: [],
-            type: ""
+            item: {},
+            type: "Customers" //default
         }
         this.handleMenuClick = this.handleMenuClick.bind(this);
         this.addNewItem = this.addNewItem.bind(this);
     }
 
+    componentDidMount(){
+        this.handleMenuClick(this.state.type);
+    }
 
     handleMenuClick(name) {
         if (name === 'Customers') {
@@ -43,7 +47,7 @@ export default class App extends Component {
     }
 
     render() {
-        console.log("method : " + this.addNewItem);
+       
       return (
           <div>
               <Header clickHandler={this.handleMenuClick} />
@@ -52,7 +56,6 @@ export default class App extends Component {
                   type={this.state.type}
                   addFunction={this.addNewItem}
               />
-              <EditForm/>
           </div>
     );
   }

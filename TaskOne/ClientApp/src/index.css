@@ -26,11 +26,11 @@
     text-align:center;
 }
 
-.parentDisable {
+#parentDisable {
     z-index: 998;
     width: 100%;
     height: 100%;
-    display: block;
+   
     position: absolute;
     top: 0;
     left: 0;
@@ -52,4 +52,19 @@
     transform: translate(-50%,-50%);
     box-sizing: border-box;
     padding: 50px 60px;
+}
+
+#btn-edit-submit {
+    width: 40%;
+    margin-left: 20%;
+    margin-top: 10%;
+}
+#btn-edit-cancell {
+    width: 40%;
+    margin-left: 20%;
+    margin-top: 10%;
+}
+
+.formHeader {
+    margin : 10% auto;
 }

@@ -2,25 +2,41 @@
 import ButtonAdd from './ButtonAdd';
 import TableContent from './TableContent';
 import PaginationExampleShorthand from './PaginationExampleShorthand';
-import { CustomersHeader, ProductsHeader, SalesHeader, StoresHeader } from './dataSupplier';
+import { getHeader } from './dataSupplier';
+import EditForm from './EditForm';
 
-const MainContent = ({ items, type, addFunction }) => {
-    var header = CustomersHeader; //cutomer as default
-    if (type === 'Customers')
-        header = CustomersHeader;
-    else if (type === 'Products')
-        header = ProductsHeader;
-    else if (type === 'Stores')
-        header = StoresHeader;
-    else if (type === 'Sales')
-        header = SalesHeader;
-    return (
-        <div className="tableContainer">
-            <ButtonAdd type={type} addFunction={addFunction} header={header}/>
-            <TableContent items={items} type={type} header={header}   />
-            <PaginationExampleShorthand />
-        </div>
-    );
-} 
+class MainContent extends React.Component {
+    //{ items, type, addFunction }
+    constructor() {
+        super();
+        this.state = {
+               editing: false
+        };
+        this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+    }
+    handleAddButtonClick() {
+        this.setState({
+            editing: true,
+            item: {}
+        });
+    }
+
+
+
+    render() {
+        var header = getHeader(this.props.type); //cutomer as default
+        return (
+            <div>
+                <div className="tableContainer">
+                    <ButtonAdd clickHandler={this.handleAddButtonClick}/>
+                    <TableContent items={this.props.items} type={this.props.type} header={header} />
+                    <PaginationExampleShorthand />
+                </div>
+                {this.state.editing && <EditForm type={this.props.type} item={this.state.item}
+                    />}
+            </div>
+        );
+    }
+}
 
 export default MainContent;

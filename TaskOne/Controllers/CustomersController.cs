@@ -110,9 +110,16 @@ namespace TaskOne.Controllers
             {
                 return NotFound();
             }
+            try
+            {
+                _context.Customer.Remove(customer);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e){
+                Console.WriteLine(e.Message);
+                return NoContent();
+            }
 
-            _context.Customer.Remove(customer);
-            await _context.SaveChangesAsync();
 
             return Ok(customer);
         }

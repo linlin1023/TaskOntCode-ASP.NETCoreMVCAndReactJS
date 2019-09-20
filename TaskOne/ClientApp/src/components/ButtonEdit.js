@@ -3,7 +3,7 @@ import { Button } from 'semantic-ui-react'
 
 const ButtonEdit = () => (
     <div>
-        <Button color="yellow"><i className="icon ion-md-create"></i>Delete</Button>
+        <Button color="yellow"><i className="icon ion-md-create"></i>Edit</Button>
     </div>
 )
 

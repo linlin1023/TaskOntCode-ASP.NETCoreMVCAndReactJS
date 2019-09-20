@@ -42,13 +42,14 @@ class MainContent extends React.Component {
         }
     }
 
+  
     render() {
         var header = getHeader(this.props.type); //cutomer as default
         return (
             <div>
                 <div className="tableContainer">
                     <ButtonAdd clickHandler={this.handleAddButtonClick}/>
-                    <TableContent items={this.props.items} type={this.props.type} header={header} />
+                    <TableContent items={this.props.items} header={header} deleteItem={this.props.deleteItem} />
                     <PaginationExampleShorthand />
                 </div>
                 {this.state.editing && <EditForm type={this.props.type} item={this.state.item}

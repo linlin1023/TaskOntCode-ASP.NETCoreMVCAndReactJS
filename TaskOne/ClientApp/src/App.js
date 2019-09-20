@@ -53,17 +53,15 @@ export default class App extends Component {
         }
         var url = "/api/" + type; //post
         postData(url, itemNew)
-            .then(data => console.log(data)) // JSON from `response.json()` call
+            .then(data => { console.log(data); this.handleMenuClick(type);}) // JSON from `response.json()` call
             .catch(error => {
                 this.setState({
                     errorMessage:
                         "Sorry Add new data failed, please contact tech support for helping."
                 });
                 console.error(error);
-                
             })
-        this.handleMenuClick(type);
-        this.forceUpdate();
+        
     }
     editItem(itemEdited) {
         const { type } = this.state;
@@ -73,13 +71,10 @@ export default class App extends Component {
                     "The data you submitted is not valid"
             });
         } else {
-            //alert("go edit");
             const url = "/api/" + type + "/" + itemEdited.id;
             putData(url, itemEdited).then(data => {
-                alert(data);
                 if (data) {
                     this.handleMenuClick(type);
-                    this.forceUpdate();
                 }  
                 else if (!data)
                     this.setState({
@@ -104,15 +99,14 @@ export default class App extends Component {
         var url = "/api/" + type + "/" + id; //delete api/Customers/5
         deleteData(url)
             .then(data => {
-                if(data === null)
+                if (data === null)
                     this.setState({
                         errorMessage:
                             "Delete failed, the data may probably link to other data, please check in other tabs if it has relationships."
                     });
+                this.handleMenuClick(type);//reload
             }) // JSON from `response.json()` call
             .catch(error => console.error(error));
-        this.handleMenuClick(type);//reload
-        this.forceUpdate();
     }
 
     onClose() {

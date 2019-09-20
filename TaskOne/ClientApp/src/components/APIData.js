@@ -17,12 +17,12 @@ export function deleteData(url) {
             cache: 'no-cache', 
             headers: {
                 'user-agent': 'Mozilla/4.0 MDN Example',
-                'content-type': 'application/json'
+                //'content-type': 'application/json'
             },
             method: 'DELETE',
         }
     ).then(response => {
-        if (response.status == 204)
+        if (response.status != 200)
             return null;
         else 
             return response.json();
@@ -42,7 +42,6 @@ export function putData(url, data) {
         },
         method: 'PUT',
     }).then(response => {
-        alert(response.status);
         if (response.status == 204)
             return true;
         else return false;

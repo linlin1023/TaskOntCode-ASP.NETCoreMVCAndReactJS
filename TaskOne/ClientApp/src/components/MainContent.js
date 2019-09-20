@@ -37,7 +37,7 @@ class MainContent extends React.Component {
         this.setState({
             editing: false
         });
-       // alert(notEmpty(itemEdited) && notEmpty(itemEdited.id));
+
         if (notEmpty(itemEdited) && notEmpty(itemEdited.id)) {//true edit 
             this.props.editItem(itemEdited)
         } else {

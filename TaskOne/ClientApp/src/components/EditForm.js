@@ -10,15 +10,12 @@ class EditForm extends React.Component  {
     constructor(props) {
         super(props);
         // if you want to use props in the constructor function you should pass in  this props as argument
-        let copyOfItem = {};
-        if (notEmpty(this.props.item))
-             copyOfItem = Object.assign({}, this.props.item);
+        let copyOfItem =  Object.assign({}, this.props.item);
         this.state = {
             data: copyOfItem ,
             header: getHeader(this.props.type),
             validationMessage: "All fields are required and the price field should be numeric valud, please enter all the values and make sure they are valid.",
             validated: true,
-            originalItem : this.props.item
         }
         this.handleChange = this.handleChange.bind(this);
         this.cancellButtonClickHandler = this.cancellButtonClickHandler.bind(this);
@@ -46,7 +43,6 @@ class EditForm extends React.Component  {
     }
 
     cancellButtonClickHandler() {
-        this.setState({ data: this.state.originalItem });
         this.props.cancellButtonHandler();
     }
     
@@ -62,7 +58,7 @@ class EditForm extends React.Component  {
 
    
     render() {
-        const textToDisplay = "Add New " + this.props.type.substring(0, this.props.type.length - 1);
+        const textToDisplay = (notEmpty(this.props.item)? "Edit " :"Add  " )+ this.props.type.substring(0, this.props.type.length - 1);
         var fields = null;
         if (this.props.type !== 'Sales') {
             fields = this.state.header.map((h) => {

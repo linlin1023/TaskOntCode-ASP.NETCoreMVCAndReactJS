@@ -22,7 +22,7 @@ export function deleteData(url) {
             method: 'DELETE',
         }
     ).then(response => {
-        if (response.status != 200)
+        if (response.status !== 200)
             return null;
         else 
             return response.json();
@@ -42,7 +42,7 @@ export function putData(url, data) {
         },
         method: 'PUT',
     }).then(response => {
-        if (response.status == 204)
+        if (response.status === 204)
             return true;
         else return false;
     })
@@ -57,7 +57,7 @@ export function getDataById(url) {
         },
         method: 'GET',
     }).then(response => {
-        if (response.status == 200)
+        if (response.status === 200)
             return response.json();
         else return null;
     })

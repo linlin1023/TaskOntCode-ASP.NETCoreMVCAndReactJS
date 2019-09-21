@@ -18,3 +18,4 @@ function getHeader(type) {
         header = CustomersHeader;
     return header;
 }
+

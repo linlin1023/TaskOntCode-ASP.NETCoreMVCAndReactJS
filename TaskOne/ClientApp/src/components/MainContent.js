@@ -4,13 +4,15 @@ import TableContent from './TableContent';
 import PaginationExampleShorthand from './PaginationExampleShorthand';
 import { getHeader } from './dataSupplier';
 import EditForm from './EditForm';
+import EditFormSales from './EditFormSales';
 import { notEmpty } from './Validator';
 class MainContent extends React.Component {
     //{ items, type, editItem, addItem }
     constructor() {
         super();
         this.state = {
-               editing: false
+            editing: false,
+            editingSale: false
         };
         this.handleAddAndEditButtonClick = this.handleAddAndEditButtonClick.bind(this);
         this.cancellEdit = this.cancellEdit.bind(this);
@@ -19,7 +21,8 @@ class MainContent extends React.Component {
 
     handleAddAndEditButtonClick(item) {
         this.setState({
-            editing: true,
+            editing: this.props.type === 'Sales' ? false : true,
+            editingSale: this.props.type === 'Sales' ? true : false,
             item: item
         });
     }
@@ -29,16 +32,16 @@ class MainContent extends React.Component {
     cancellEdit() {
         this.setState({
             editing: false,
+            editingSale: false,
             item: {}
         })
     }
 
     submitEdit(itemEdited) {
         this.setState({
-            editing: false
+            editing: false,
+            editingSale: false
         });
-        alert(JSON.stringify(itemEdited));
-
         if (notEmpty(itemEdited) && notEmpty(itemEdited.id)) {//true edit 
             this.props.editItem(itemEdited)
         } else {
@@ -64,6 +67,11 @@ class MainContent extends React.Component {
                     cancellButtonHandler={this.cancellEdit}
                     submitButtonHandler={this.submitEdit}
                 />}
+
+                {this.state.editingSale && <EditFormSales type={this.props.type} item={this.state.item}
+                    cancellButtonHandler={this.cancellEdit}
+                    submitButtonHandler={this.submitEdit}
+                /> }
             </div>
         );
     }

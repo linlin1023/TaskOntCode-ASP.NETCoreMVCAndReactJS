@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.css';
 import MainContent from './components/MainContent';
 import Header from './components/Header';
-import { postData, deleteData, putData, getDataById, getData} from './components/APIData';
+import { postData, deleteData, putData, getData} from './components/APIData';
 import { notEmpty } from './components/Validator';
 import  MessageBox  from './components/MessageBox';
 
@@ -62,6 +62,17 @@ export default class App extends Component {
                     "The data you submitted is not valid"
             });
         } else {
+           // alert(JSON.stringify(itemEdited))
+            if (this.state.type === 'Sales') {
+                var newItem = {
+                    id: itemEdited.id,
+                    productId: itemEdited.productId,
+                    storeId: itemEdited.storeId,
+                    customerId: itemEdited.customerId,
+                    dateSold: itemEdited.dateSold
+                };
+                itemEdited = newItem;
+            }
             const url = "/api/" + type + "/" + itemEdited.id;
             putData(url, itemEdited).then(data => {
                 if (data) {
@@ -112,7 +123,6 @@ export default class App extends Component {
               <MainContent
                   items={this.state.data}
                   type={this.state.type}
-                  editItem={this.editItem}
                   addItem={this.addItem}
                   deleteItem={this.deleteItem}
                   editItem={this.editItem}/>

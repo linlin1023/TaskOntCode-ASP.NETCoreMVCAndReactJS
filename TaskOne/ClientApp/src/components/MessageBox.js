@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react'
-import { Button, Confirm } from 'semantic-ui-react'
+import {  Confirm } from 'semantic-ui-react'
 
 class MessageBox extends Component {
     

@@ -26,7 +26,8 @@ class EditForm extends React.Component  {
         const { header, data } = this.state;
         var validated = true;
         header.forEach(h => {
-            validated = validated && notEmpty(data[h.toLowerCase()]);
+            const indexName = h[0].toLowerCase() + h.slice(1);
+            validated = validated && notEmpty(data[indexName]);
         });
         if (validated === true) {
             this.setState({ validated: true });
@@ -51,7 +52,8 @@ class EditForm extends React.Component  {
         this.setState(() => {
             header.forEach(
                 h => {
-                    if (name === h.toLowerCase()) {
+                    const indexName = h[0].toLowerCase() + h.slice(1);
+                    if (name === indexName) {
                         newItem[name] = value;
                     }
                 }
@@ -66,7 +68,8 @@ class EditForm extends React.Component  {
         var fields = null;
         if (this.props.type !== 'Sales') {
             fields = this.state.header.map((h) => {
-                const defaultValue = (this.state.data != null&&this.state.data[h.toLowerCase()] != null) ? this.state.data[h.toLowerCase()] : "";
+                const indexName = h[0].toLowerCase() + h.slice(1);
+                const defaultValue = (this.state.data != null && this.state.data[indexName] != null) ? this.state.data[indexName] : "";
             
                 return (
                     <Form.Field
@@ -75,7 +78,7 @@ class EditForm extends React.Component  {
                         label={h}
                         placeholder={h}
                         value={defaultValue}
-                        name={h.toLowerCase()}
+                        name={indexName}
                         onChange={(e) => this.handleChange(e)}
                     />
                 )

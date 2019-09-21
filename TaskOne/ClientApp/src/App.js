@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './index.css';
 import MainContent from './components/MainContent';
 import Header from './components/Header';
-import { postData, deleteData, putData } from './components/APIData';
+import { postData, deleteData, putData, getDataById, getData} from './components/APIData';
 import { notEmpty } from './components/Validator';
 import  MessageBox  from './components/MessageBox';
 
@@ -27,21 +27,12 @@ export default class App extends Component {
         this.handleMenuClick(this.state.type);
     }
 
+
+
+
     handleMenuClick(name) {
-        if (name === 'Customers') {
-            fetch("/api/Customers").then(response => response.json()).
-                then(jdata => {
-                    this.setState({ data: jdata, type: name });
-                });
-            
-        } else if (name === 'Products') {
-
-        } else if (name === 'Stores') {
-
-        } else if (name === 'Sales') {
-
-        }
-        this.forceUpdate();
+        getData("/api/" + name).then(jdata => this.setState({ data: jdata, type: name }));
+       // this.forceUpdate();
     }
 
    

@@ -27,16 +27,13 @@ namespace TaskOne.Controllers
 
         //GET : api/Products/{id}
         [HttpGet("{id}")]  //  '/' is not needed, cos it will ignore the path on controller
-        public IActionResult GetProductById([FromRoute] int id) {
-            if (!ModelState.IsValid) {
+        public async Task<IActionResult> GetProductById([FromRoute] int id) {
+            if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
-            }
-            Product product = _context.Product.Find(id);
+            var product = await _context.Product.FindAsync(id);
             if (product == null)
                 return NotFound();
-            else
-                return Ok(product);
-
+            return Ok(product);
         }
 
         //PUT : api/Products/{id}    
@@ -51,7 +48,19 @@ namespace TaskOne.Controllers
                 return BadRequest();
             }
             _context.Entry(product).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                if (!ProductExists(id))
+                    return NotFound();
+                else {
+                    Console.WriteLine(e.StackTrace);
+                    throw;
+                }
+            }
+           
             return NoContent();
         }
 
@@ -79,18 +88,27 @@ namespace TaskOne.Controllers
             {
                 return BadRequest(ModelState);
             }
-            else {
-                Product productToRemove = await _context.Product.FindAsync(id);
+            
+                var productToRemove = await _context.Product.FindAsync(id);
                 if (productToRemove == null)
                     return NotFound();
-
+            try
+            {
                 _context.Product.Remove(productToRemove);
                 await _context.SaveChangesAsync();
-
-                return Ok(productToRemove);
             }
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
+                return NoContent();
+
+            }
+                return Ok(productToRemove);
+            
         }
 
+        private bool ProductExists(int id) {
+            return _context.Product.Any(e=> e.Id == id);
+        }
 
     }
 }

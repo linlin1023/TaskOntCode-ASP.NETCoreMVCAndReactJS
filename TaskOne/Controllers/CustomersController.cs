@@ -32,17 +32,10 @@ namespace TaskOne.Controllers
         public async Task<IActionResult> GetCustomer([FromRoute] int id)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-
             var customer = await _context.Customer.FindAsync(id);
-
             if (customer == null)
-            {
                 return NotFound();
-            }
-
             return Ok(customer);
         }
 

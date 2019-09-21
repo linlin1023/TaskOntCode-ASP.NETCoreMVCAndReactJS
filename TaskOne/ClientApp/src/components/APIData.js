@@ -47,3 +47,28 @@ export function putData(url, data) {
         else return false;
     })
 }
+
+
+export function getDataById(url) {
+    return fetch(url, {
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+            'user-agent': 'Mozilla/4.0 MDN Example',
+        },
+        method: 'GET',
+    }).then(response => {
+        if (response.status == 200)
+            return response.json();
+        else return null;
+    })
+}
+
+export function getData(url) {
+    return fetch(url, {
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        headers: {
+            'user-agent': 'Mozilla/4.0 MDN Example',
+        },
+        method: 'GET',
+    }).then(response => response.json());
+}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,7 +17,7 @@ namespace TaskOne
         public string Name { get; set; }
         [Required]
         public string Address { get; set; }
-
+        [JsonIgnore]
         public ICollection<Sales> Sales { get; set; }
     }
 }

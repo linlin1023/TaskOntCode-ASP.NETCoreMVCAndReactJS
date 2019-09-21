@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskOne;
+using TaskOne.Models;
 
 namespace TaskOne.Controllers
 {
@@ -22,9 +23,29 @@ namespace TaskOne.Controllers
 
         // GET: api/Sales
         [HttpGet]
-        public IEnumerable<Sales> GetSales()
+        public IEnumerable<ViewModelSales> GetSales()
         {
-            return _context.Sales.Include(s=>s.Customer).ToList();
+            IEnumerable<Sales> sales =
+                _context.Sales.Include(s => s.Product)
+                .Include(s => s.Customer)
+                .Include(s => s.Store).AsEnumerable();
+
+            IEnumerable<ViewModelSales> viewSales = sales.Select(i => 
+                new ViewModelSales() {
+                    Id = i.Id,
+                    ProductId=i.ProductId,
+                    CustomerId = i.CustomerId,
+                    StoreId = i.StoreId,
+                    DateSold = i.DateSold,
+                    Customer = i.Customer.Name,
+                    Product =  i.Product.Name,
+                    Store = i.Store.Name
+                }
+            ).AsEnumerable();
+
+//ViewModelSales(int Id, int ProductId, int CustomerId, int StoreId, DateTime DateSold, string Customer, string Product, string Store) {
+
+            return viewSales;
         }
 
         // GET: api/Sales/5
@@ -66,7 +87,7 @@ namespace TaskOne.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
                 if (!SalesExists(id))
                 {
@@ -74,6 +95,7 @@ namespace TaskOne.Controllers
                 }
                 else
                 {
+                    Console.WriteLine(e.StackTrace);
                     throw;
                 }
             }
@@ -110,9 +132,14 @@ namespace TaskOne.Controllers
             {
                 return NotFound();
             }
-
-            _context.Sales.Remove(sales);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Sales.Remove(sales);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.StackTrace);
+            }
 
             return Ok(sales);
         }

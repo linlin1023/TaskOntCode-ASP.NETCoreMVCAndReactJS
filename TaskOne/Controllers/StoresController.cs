@@ -43,7 +43,21 @@ namespace TaskOne.Controllers
             if (id != store.Id)
                 return BadRequest();
             _context.Entry(store).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e) {
+                if (!StoreExists(id))
+                {
+                    return NotFound();
+                }
+                else {
+                    Console.WriteLine(e.StackTrace);
+                    throw;
+                }
+            }
             return NoContent();
         }
 
@@ -69,9 +83,21 @@ namespace TaskOne.Controllers
             if (store == null) {
                 return NotFound();
             }
-            _context.Store.Remove(store);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Store.Remove(store);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.StackTrace);
+                return NoContent();
+            }
+            
             return Ok(store);
+        }
+
+        private bool StoreExists(int id) {
+            return _context.Store.Any(e => e.Id == id);
         }
     }
 }

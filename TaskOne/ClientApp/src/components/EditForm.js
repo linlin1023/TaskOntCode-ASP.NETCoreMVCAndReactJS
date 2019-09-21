@@ -10,12 +10,15 @@ class EditForm extends React.Component  {
     constructor(props) {
         super(props);
         // if you want to use props in the constructor function you should pass in  this props as argument
-      
+        let copyOfItem = {};
+        if (notEmpty(this.props.item))
+             copyOfItem = Object.assign({}, this.props.item);
         this.state = {
-            data: this.props.item ,
+            data: copyOfItem ,
             header: getHeader(this.props.type),
-            validationMessage: "All fields are required, please enter the values",
-            validated:true
+            validationMessage: "All fields are required and the price field should be numeric valud, please enter all the values and make sure they are valid.",
+            validated: true,
+            originalItem : this.props.item
         }
         this.handleChange = this.handleChange.bind(this);
         this.cancellButtonClickHandler = this.cancellButtonClickHandler.bind(this);
@@ -27,7 +30,10 @@ class EditForm extends React.Component  {
         var validated = true;
         header.forEach(h => {
             const indexName = h[0].toLowerCase() + h.slice(1);
-            validated = validated && notEmpty(data[indexName]);
+            validated = validated && notEmpty(data) && notEmpty(data[indexName]);
+            if (indexName === 'price' && notEmpty(data) && isNaN(data[indexName])) {
+                validated = false;
+            }
         });
         if (validated === true) {
             this.setState({ validated: true });
@@ -40,25 +46,17 @@ class EditForm extends React.Component  {
     }
 
     cancellButtonClickHandler() {
+        this.setState({ data: this.state.originalItem });
         this.props.cancellButtonHandler();
     }
     
     handleChange(event) {
         // update the data that save in the state
-        const { name, value } = event.target;
-        const { header, data } = this.state;
-        var newItem = (data == null) ? { }:data;
-        
-        this.setState(() => {
-            header.forEach(
-                h => {
-                    const indexName = h[0].toLowerCase() + h.slice(1);
-                    if (name === indexName) {
-                        newItem[name] = value;
-                    }
-                }
-            );
-            return {data: newItem, header};
+        const { name, value } = event.target;  
+        this.setState((prevState) => {
+            var newItem = notEmpty(prevState.data) ? prevState.data : {};
+            newItem[name] = value;
+            return {data: newItem};
         });
     }
 

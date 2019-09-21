@@ -37,6 +37,7 @@ class MainContent extends React.Component {
         this.setState({
             editing: false
         });
+        alert(JSON.stringify(itemEdited));
 
         if (notEmpty(itemEdited) && notEmpty(itemEdited.id)) {//true edit 
             this.props.editItem(itemEdited)
@@ -59,7 +60,7 @@ class MainContent extends React.Component {
                     />
                     <PaginationExampleShorthand />
                 </div>
-                {this.state.editing && <EditForm type={this.props.type} item={this.state.item}
+                {this.state.editing && <EditForm type={this.props.type} item={this.state.item} 
                     cancellButtonHandler={this.cancellEdit}
                     submitButtonHandler={this.submitEdit}
                 />}

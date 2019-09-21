@@ -39,9 +39,24 @@ export default class App extends Component {
 
     addItem(itemNew) { //post 
         const { type } = this.state;
-        if (itemNew == null) {
+        if (itemNew === null || itemNew === undefined) {
+            this.setState({
+                errorMessage:
+                    "The data you submitted is not valid"
+            });
             return;
         }
+        // alert(JSON.stringify(itemEdited))
+        if (this.state.type === 'Sales') {
+            var newItem = {
+                productId: itemNew.productId,
+                storeId: itemNew.storeId,
+                customerId: itemNew.customerId,
+                dateSold: itemNew.dateSold
+            };
+            itemNew = newItem;
+        }
+        alert("Salse add : " + JSON.stringify(itemNew));
         var url = "/api/" + type; //post
         postData(url, itemNew)
             .then(data => { console.log(data); this.handleMenuClick(type);}) // JSON from `response.json()` call

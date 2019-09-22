@@ -14,7 +14,10 @@ export default class App extends Component {
         this.state = {
             data: [],
             item: {},
-            type: "Customers" //default,
+            type: "Customers", //default,
+            itemsPerPage: 2,
+            currentPage: 1,
+            totalItems: 0
         }
         this.handleMenuClick = this.handleMenuClick.bind(this);
         this.addItem = this.addItem.bind(this);
@@ -27,15 +30,10 @@ export default class App extends Component {
         this.handleMenuClick(this.state.type);
     }
 
-
-
-
     handleMenuClick(name) {
-        getData("/api/" + name).then(jdata => this.setState({ data: jdata, type: name }));
+        getData("/api/" + name).then(jdata => this.setState({ data: jdata, type: name, totalItems: jdata.length, currentPage:1 }));
        // this.forceUpdate();
     }
-
-   
 
     addItem(itemNew) { //post 
         const { type } = this.state;
@@ -46,7 +44,6 @@ export default class App extends Component {
             });
             return;
         }
-        // alert(JSON.stringify(itemEdited))
         if (this.state.type === 'Sales') {
             var newItem = {
                 productId: itemNew.productId,
@@ -56,7 +53,6 @@ export default class App extends Component {
             };
             itemNew = newItem;
         }
-        alert("Salse add : " + JSON.stringify(itemNew));
         var url = "/api/" + type; //post
         postData(url, itemNew)
             .then(data => { console.log(data); this.handleMenuClick(type);}) // JSON from `response.json()` call
@@ -77,7 +73,6 @@ export default class App extends Component {
                     "The data you submitted is not valid"
             });
         } else {
-           // alert(JSON.stringify(itemEdited))
             if (this.state.type === 'Sales') {
                 var newItem = {
                     id: itemEdited.id,
@@ -130,17 +125,35 @@ export default class App extends Component {
         this.setState({ errorMessage: null });
     }
 
-    render() {
-      return (
+    paginate = (num) => {
+        this.setState({
+            currentPage: num
+        });
+    };
+
+ 
+render() {
+    const indexOfLastItem = this.state.currentPage * this.state.itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - this.state.itemsPerPage;
+    const itemsCurrentPage = this.state.data.slice(indexOfFirstItem, indexOfLastItem);
+   // alert("in APP current page : " + this.state.currentPage)
+    return (
           <div>
-            
               <Header clickHandler={this.handleMenuClick} />
               <MainContent
-                  items={this.state.data}
-                  type={this.state.type}
-                  addItem={this.addItem}
-                  deleteItem={this.deleteItem}
-                  editItem={this.editItem}/>
+                  
+                type={this.state.type}
+                addItem={this.addItem}
+                deleteItem={this.deleteItem}
+                editItem={this.editItem}
+
+                items={itemsCurrentPage}
+                paginate={this.paginate}
+                itemsPerPage={this.state.itemsPerPage}
+                totalItems={this.state.totalItems}
+                currentPage={this.state.currentPage}
+                  //paginate={this.props.paginate} totalItems={this.props.data} itemsPerPage={this.props.itemPerPage}
+              />
 
               {this.state.errorMessage ? <MessageBox message={this.state.errorMessage ? this.state.errorMessage : ""} onClose={this.onClose} /> : null}
           </div>

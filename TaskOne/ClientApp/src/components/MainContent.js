@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import ButtonAdd from './ButtonAdd';
 import TableContent from './TableContent';
-import PaginationExampleShorthand from './PaginationExampleShorthand';
+import Pagination from './Pagination';
 import { getHeader } from './dataSupplier';
 import EditForm from './EditForm';
 import EditFormSales from './EditFormSales';
@@ -61,7 +61,14 @@ class MainContent extends React.Component {
                         deleteItem={this.props.deleteItem}
                         clickHandler={this.handleAddAndEditButtonClick} 
                     />
-                    <PaginationExampleShorthand />
+
+        
+
+                    <Pagination paginate={this.props.paginate}
+                        itemsPerPage={this.props.itemsPerPage}
+                        totalItems={this.props.totalItems}
+                        currentPage={this.props.currentPage}
+                    />
                 </div>
                 {this.state.editing && <EditForm type={this.props.type} item={this.state.item} 
                     cancellButtonHandler={this.cancellEdit}

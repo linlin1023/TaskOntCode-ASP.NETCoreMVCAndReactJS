@@ -6,14 +6,16 @@ class MessageBox extends Component {
     handleConfirm = () => this.props.onClose();
     render() {
         return (
-            <div>
+            <div id="parentDisable">
+            <div id="messageBox001">
                 <Confirm
                     open={true}
                     content={this.props.message}
                     onCancel={this.handleConfirm}
                     onConfirm={this.handleConfirm}
                 />
-            </div>
+                </div>
+                </div>
         )
     }
 }

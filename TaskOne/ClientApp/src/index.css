@@ -30,7 +30,10 @@
     z-index: 998;
     width: 100%;
     height: 100%;
-   
+
+    pointer-events: none;
+    cursor: default;
+
     position: absolute;
     top: 0;
     left: 0;
@@ -39,7 +42,13 @@
     background: rgba(0,0,0,0.6);
 }
 
+#messageBox001 {
+    pointer-events: all;
+}
+
+
 #popup {
+    pointer-events: all;
     z-index: 999;
     width: 800px;
     height: 380px;
@@ -73,3 +82,33 @@
 .formHeader {
     margin : 15% auto;
 }
+
+.pagination {
+    display: inline-block;
+    list-style: none;
+    margin-top: 30px;
+    margin-right: 20px;
+}
+
+.page-item {
+    display: inline-block;
+    margin-left: 40px;
+}
+
+.page-item a:link,
+.page-item a:visited {
+    padding: 8px 8px;
+    text-decoration: none;
+    font-size: 90%;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.2s;
+}
+
+.page-item a:hover,
+.page-item a:active {
+    border-bottom: 2px solid green;
+}
+
+    .page-item.active a {
+        border-bottom: 2px solid green;
+    }

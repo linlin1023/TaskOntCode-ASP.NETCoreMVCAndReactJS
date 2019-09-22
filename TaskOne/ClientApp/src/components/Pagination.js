@@ -7,8 +7,6 @@ const Pagination = ({ itemsPerPage, totalItems, paginate,currentPage }) => {
     }
     return (
         <div className="paginationBarDiv">
-
-            <nav >
             <ul className="pagination">
                     {pageNumbers.map(number => (
                         <li key={number} className={(number === currentPage) ? "page-item active" : "page-item"} >
@@ -18,7 +16,6 @@ const Pagination = ({ itemsPerPage, totalItems, paginate,currentPage }) => {
                         </li>
                     ))}
             </ul>
-            </nav>
         </div>
     );
 };

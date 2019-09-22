@@ -25,7 +25,10 @@ namespace TaskOne
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-OB74BP0;Database=Onboarding_task;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(
+                    "Server=tcp:taskone20190922091156.database.windows.net,1433;Initial Catalog=TONE20190922;Persist Security Info=False;User ID=linlinp;Password=Xiaoyao1023@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+                   );
+               
             }
         }
 

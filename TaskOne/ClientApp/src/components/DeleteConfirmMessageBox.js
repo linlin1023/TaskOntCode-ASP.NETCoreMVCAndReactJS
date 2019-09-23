@@ -6,12 +6,16 @@ class DeleteConfirmMessageBox extends Component {
     handleCancell = () => this.props.onClose();
     handleConfirm = () => this.props.goDelete(this.props.item.id);
     render() {
+
+        const confirmMessage = this.props.item.name ? ("Are you sure to delete the record named " + this.props.item.name + " ?") :
+            "Are you sure to delete the sale record";
+
         return (
             <div id="parentDisable">
             <div id="messageBox001">
                 <Confirm
                     open={true}
-                    content={"Are you sure to delete the record named "+ this.props.item.name + " ?"}
+                    content={confirmMessage}
                     onCancel={this.handleCancell}
                     onConfirm={this.handleConfirm}
                 />

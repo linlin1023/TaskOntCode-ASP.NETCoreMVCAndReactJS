@@ -15,7 +15,7 @@ export default class App extends Component {
             data: [],
             item: {},
             type: "Customers", //default,
-            itemsPerPage: 2,
+            itemsPerPage: 5,
             currentPage: 1,
             totalItems: 0
         }

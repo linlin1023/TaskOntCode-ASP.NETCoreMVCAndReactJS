@@ -17,7 +17,7 @@ const TableContent = ({ items, header, deleteItem, clickHandler}) => {
             <Table.Row key={Math.random()}>
                 {content}
                 <Table.Cell><ButtonEdit clickHandler={clickHandler} item={item}/></Table.Cell>
-                <Table.Cell><ButtonDelete clickHandler={deleteItem} itemId={item.id}/></Table.Cell>
+                <Table.Cell><ButtonDelete clickHandler={deleteItem} item={item}/></Table.Cell>
             </Table.Row>
         );
     });

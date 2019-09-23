@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Form, Button, Header, Message } from 'semantic-ui-react';
+import { Form, Button, Header, Message, Input } from 'semantic-ui-react';
 import { getData } from './APIData';
 import { notEmpty } from './Validator';
 
@@ -102,6 +102,9 @@ class EditFormSales extends React.Component  {
         var productText = notEmpty(data) ? (notEmpty(data.product) ? data.product : null) : null;
         var customerText = notEmpty(data) ? (notEmpty(data.customer) ? data.customer : null) : null;
         var storeText = notEmpty(data) ? (notEmpty(data.store) ? data.store : null) : null;
+        var inputStyle = {
+            outline: 'none'
+        };
         return (
             <div id="parentDisable">
                 <div id="popup">
@@ -142,6 +145,7 @@ class EditFormSales extends React.Component  {
                                 defaultValue={defaultStoreId}
                                 text={storeText}
                             />
+                            {data.dateSold && <Form.Input fluid label='Sold Date' placeholder={data.dateSold} value={data.dateSold} readOnly style={inputStyle} />}
                         </Form.Group>
                         <Form.Group widths='equal'>
                             <Form.Field
@@ -160,6 +164,7 @@ class EditFormSales extends React.Component  {
                             />
                         </Form.Group>
                     </Form>
+                   
                         {!this.state.validated && <Message
                             error
                             content={this.state.validationMessage}
